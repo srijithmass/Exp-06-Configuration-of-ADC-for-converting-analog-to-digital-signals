@@ -1,9 +1,9 @@
 # Exp-06-Configuration-of-ADC-for-converting-analog-to-digital-signals
 
 
-## Name :	
-## Roll no:
-## Date of experiment : 
+## Name : SRIJITH R
+## Roll no : 212221240054
+## Date of experiment :20/11/22 
   
   
 ## Aim: To configure internal ADC for   LPC2148 ARM 7 and write a code for displaying the values varying from 0v to 3.3v to its equivalent digital values 
@@ -177,19 +177,49 @@ ADxDRy. E.g. AD0DR1 contains ADC result of channel 1 of ADC0.
 Figure -08 Circuit diagram of interfacing an POT with ADC input pin 
 
 ## Kiel - Program 
- 
+ ```
+ #include <lpc214x.h>
+#include "LCD.h"
+#include "ADC.h"
+unsigned int val;
+/*void delay_ms(unsigned int count)
+{
+	unsigned int i=0,j=0;
+	for(j=0;j<count;j++)
+	{
+		for(i=0;i<count;i++);
+	}
+}*/
+int main()
+{
+	IO1DIR = 0xffffffff;
+	IO0DIR = 0x00000000;
+	PINSEL0 = 0x0300;
+	VPBDIV = 0x02;
+	lcd_init();
+	show(" ADC Value:");
+	while(1)
+	{
+		cmd(0x8b);
+		//delay_ms(1000);
+		val=adc(0,6);
+		dat((val/1000)+48);
+		dat(((val/100)%10)+48);
+		dat(((val/10)%10)+48);
+		dat((val%10)+48);
+	}
+}
+ ```
+ ## Output:
+ ## Before simulation:
+ ![bs](https://user-images.githubusercontent.com/94164580/202905415-3988f636-27c3-46d1-81cf-0f40dd887f2d.png)
+ ## After simulation:
+ ![as](https://user-images.githubusercontent.com/94164580/202905414-5afa2f46-4d96-4cd0-911c-903a2eeff436.png)
+ ## Layout:
+ ![lay](https://user-images.githubusercontent.com/94164580/202905410-7eef1a39-b900-41e9-8884-e140a2970173.png)
+
 ## Tabulations and graph 
-SL NO	% OF POT VALUE	ADC VALUE
-1		
-2		
-3		
-4		
-5		
-6		
-7		
-8		
-9		
-10		
+![tab](https://user-images.githubusercontent.com/94164580/202905411-c84453d3-0755-484e-9597-f15855c95236.png)
 
  ![image](https://user-images.githubusercontent.com/36288975/198947184-dbccf4b1-10a1-4090-a670-93526ed6e597.png)
 
@@ -202,7 +232,6 @@ Figure -09 graph between % of pot(1Kohm) values and ADC
 Result :
 Configuring an ADC and the input values are displayed on LCD screen 
 
-Output screen shots :
 
 
 
